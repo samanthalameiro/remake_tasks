@@ -1,6 +1,6 @@
 program task_10
     implicit none
-    integer :: m, n, id
+    integer :: n, m, id
     character (len = 20) :: arquive
     logical :: arquive_exist
     real, dimension(:,:), allocatable :: x
@@ -13,7 +13,7 @@ program task_10
     arquive = "force.dat"
     print*, arquive
 
-    inquire(file = "arquive", exist = arquive_exist)
+    inquire(file = arquive, exist = arquive_exist)
 
         if(arquive_exist) then
             id = 12
@@ -34,7 +34,7 @@ program task_10
     12 format("Linha = ",I3," ;Coluna = ",I3)
 end program task_10
 
-subroutine matrix(i, j, n, m, id)
+subroutine matrix(n, m, id, x)
     implicit none
     integer :: i, j, n, m, id
     real, dimension(n,m) :: x
@@ -42,6 +42,7 @@ subroutine matrix(i, j, n, m, id)
     read(id,*) ((x(i,j), j = 1, m), i = 1, n)
     write(*, 15) ((x(i,j), j = 1, m), i = 1, n)
 
+    15 format(3(F12.3))
 end subroutine matrix
 
 subroutine max_values(n, m, x)
@@ -66,12 +67,12 @@ subroutine lines(n, m, id, arquive)
     character (len = 3), dimension(1, max_col) :: x
     character (len = 20) :: arquive
 
-    open(id, file = "arquive", form = "formatted")
+    open(id, file = arquive, form = "formatted")
 
     n = 0
-
     read(id, *)
-        do read(id, * , iostat = stat)
+        do 
+            read(id, * , iostat = stat)
             if (stat /= 0) exit 
             n = n + 1
         end do
@@ -88,4 +89,4 @@ subroutine lines(n, m, id, arquive)
     read (id, *)
 
     return
-    end subroutine lines
+end subroutine lines
