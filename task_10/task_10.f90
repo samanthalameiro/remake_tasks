@@ -22,7 +22,7 @@ program task_10
 
             allocate (x(n,m))
 
-            print 12, n, m 
+            print 12, n, m  
 
             call matrix(n, m, id, x)
 
